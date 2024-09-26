@@ -18,11 +18,14 @@ jobs:
 
         - uses: actions/create-release@v1
           id: create-release
+          env: 
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             draft: false
             prerelease: false
             release_name: ${{ steps.version.outputs.version }}
             tag_name: ${{ github.ref}}
+            token: ${{ secrets.GITHUB_TOKEN }}
 
     create-artifact:
       runs-on: ubuntu-22.04
