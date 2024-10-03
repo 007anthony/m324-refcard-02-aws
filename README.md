@@ -1,48 +1,45 @@
+# Architecture Ref.Card 02 with AWS
+## Creation of the Github Repository
+First I cloned the repository
+```sh
+git clone https://gitlab.com/bbwrl/m346-ref-card-02.git
+```
+Then I created a Github Repository. I changed the remote URL from origin to the URL from the newly created Github Repository:
+```sh
+git remote set-url origin git@github.com:007anthony/m324-refcard-02-aws.git
+```
+Finally I pushed all the existing commits commits to my newly created Github Repository.
+```sh
+git push --set-upstream origin main
+```
 
-# Architecture Ref.Card 02 - React Application (serverless)
+## Create the Workflow
+First I created the structure with all required fields. As The name of the Workflow I used `Push to ECR`. It should be started automatically when I push something in the main-branch.
+```yaml
+name: Push Image to ECR
+on: 
+    push: 
+        branches: 
+            - main
+```
+### Versionising of the artifacts
+To Versionize the artifact I used releases. To add a artifact to a release I first had to create a release. For that I wrote the following Job:
+```yaml
+create-release:
+  runs-on: ubuntu-22.04
+  steps:
+  - uses: actions/Checkout@v4
 
-Link zur Übersicht<br/>
-https://gitlab.com/bbwrl/m346-ref-card-overview
+  - name: Get Project Version
+      id: version
+      run: echo version=$(node -p "require('./package.json').version") >> $GITHUB_OUTPUT
 
-## Installation der benötigten Werkzeuge
-
-Für das Bauen der App wird Node bzw. npm benötigt. Die Tools sind unter 
-der folgenden URL zu finden. Für die meisten Benutzer:innen empfiehlt sich 
-die LTS Version.<br/>
-https://nodejs.org/en/download/
-
-Node Version Manager<br/>
-Für erfahren Benutzer:innen empfiehlt sich die Installation des 
-Node Version Manager nvm. Dieses Tool erlaubt das Installiert und das 
-Wechseln der Node Version über die Kommandozeile.<br/>
-**Achtung: Node darf noch nicht auf dem Computer installiert sein.**<br/>
-https://learn2torials.com/a/how-to-install-nvm
-
-
-## Inbetriebnahme auf eigenem Computer
-
-Projekt herunterladen<br/>
-```git clone git@gitlab.com:bbwrl/m346-ref-card-02.git```
-<br/>
-```cd architecture-refcard-02```
-
-### Projekt bauen und starten
-Die Ausführung der Befehle erfolgt im Projektordner
-
-Builden mit Node/npm<br/>
-```$ npm install```
-
-Das Projekt wird gebaut und die entsprechenden Dateien unter dem Ordner node_modules gespeichert.
-
-Die App kann nun mit folgendem Befehl gestartet werden<br/>
-```$ npm start```
-
-Die App kann nun im Browser unter der URL http://localhost:3000 betrachtet werden.
-
-
-
-### Inbetriebnahme mit Docker Container
-folgt...
-
-
-
+  - uses: actions/create-release@v1
+      with:
+      draft: false
+      prerelease: false
+      release_name: ${{ steps.version.outputs.version }}
+      tag_name: ${{ github.ref}}
+```
+After I created the Release I could build the Artifa
+![alt text](image.png)
