@@ -45,14 +45,14 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: refcard-02
-            path: build
+            path: |
+              build
+              Dockerfile
 
     build-image:
       runs-on: ubuntu-22.04
       needs: create-artifact
       steps:
-        - uses: actions/Checkout@v4
-
         - uses: actions/download-artifact@v4
           with:
             name: refcard-02
