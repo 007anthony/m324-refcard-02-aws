@@ -105,7 +105,7 @@ build-image:
 
     - name: Build Docker Image
       run: |
-        docker build -t refcard-02
+        docker build -t refcard-02 .
         
     
     - name: Login to ECR Instance
