@@ -6,6 +6,8 @@ on:
 jobs:
     create-release:
       runs-on: ubuntu-22.04
+      outputs:
+        version: ${{ steps.version.outputs.version }}
       steps:
         - uses: actions/Checkout@v4
 
@@ -26,6 +28,8 @@ jobs:
     create-artifact:
       runs-on: ubuntu-22.04
       needs: create-release
+      outputs:
+        version: ${{ needs.create-release.outputs.version }}
       steps:
         - uses: actions/Checkout@v4
 
@@ -38,9 +42,6 @@ jobs:
         - name: Build Artifact
           run: npm run build
 
-        - name: pack artifact
-          run: zip -r refcard-02.zip ./build
-
         - name: upload Artifact
           uses: actions/upload-artifact@v4
           with:
@@ -48,7 +49,6 @@ jobs:
             path: |
               build
               Dockerfile
-              package.json
 
     build-image:
       runs-on: ubuntu-22.04
@@ -56,12 +56,7 @@ jobs:
       steps:
         - uses: actions/download-artifact@v4
           with:
-            name: refcard-02
-
-        - name: Get Project Version
-          id: version
-          run: echo version=$(node -p "require('./package.json').version") >> $GITHUB_OUTPUT
-          
+            name: refcard-02         
 
         - name: Build Docker Image
           run: |
@@ -79,12 +74,12 @@ jobs:
         - name: Tag Image
           run: |
             docker tag refcard-02 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:latest
-            docker tag refcard-02 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:${{ steps.version.outputs.version }}
+            docker tag refcard-02 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:${{ needs.create-artifact.outputs.version }}
 
         - name: Push Image to ECR Instance
           run: | 
             docker push 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:latest
-            docker push 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:${{ steps.version.outputs.version }}
+            docker push 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:${{ needs.create-artifact.outputs.version }}
 
 
 
