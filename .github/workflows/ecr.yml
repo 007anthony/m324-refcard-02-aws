@@ -36,7 +36,7 @@ jobs:
           run: npm install
 
         - name: Run Tests
-          run: npm run test
+          run: npm run test -- --watchAll=false
 
         - name: Build Artifact
           run: npm run build
