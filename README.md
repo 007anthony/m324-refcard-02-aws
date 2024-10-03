@@ -162,3 +162,5 @@ After everything was created I was able to add the access the Application with t
 To test everything I changed the version and pushed the new changes. So it should deploy the new image into the ECR and redeploy the ECS Service.
 
 ![alt text](images/image-14.png)
+After the Pipeline was ran sucessfully I was able to see 2 Tasks. One was the old task and the other is the new task. It was ran automatically.
+![alt text](image.png)

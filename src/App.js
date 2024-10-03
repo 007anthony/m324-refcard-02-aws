@@ -9,7 +9,7 @@ function App() {
         <Col>
             <h1>Architecture Ref. Card 2</h1>
             <div className="message">
-              react app ... up and running
+              react app ... up and running on AWS
             </div>
         </Col>
         <Row>
