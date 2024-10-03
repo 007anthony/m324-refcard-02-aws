@@ -48,6 +48,7 @@ jobs:
             path: |
               build
               Dockerfile
+              package.json
 
     build-image:
       runs-on: ubuntu-22.04
