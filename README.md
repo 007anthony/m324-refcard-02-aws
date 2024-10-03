@@ -176,3 +176,8 @@ update-ecs:
         AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       run: aws ecs update-service --cluster refcard-02 --service refcard-02 --region ${{ vars.AWS_REGION }}--force-new-deployment
 ```
+With that it worked and I was able to automatically start the redeploymnent
+![alt text](images/image-18.png)
+And I was able to connect to the site with the new public IP-Address.
+![alt text](images/image-19.png)
+![alt text](images/image-20.png)
