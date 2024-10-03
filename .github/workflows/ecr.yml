@@ -33,7 +33,7 @@ jobs:
         - uses: actions/Checkout@v4
 
         - name: Install Dependencies
-          run: npm run install
+          run: npm install
 
         - name: Run Tests
           run: npm run test
