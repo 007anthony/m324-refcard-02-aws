@@ -81,6 +81,19 @@ jobs:
             docker push 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:latest
             docker push 824479776970.dkr.ecr.us-east-1.amazonaws.com/refcard-02:${{ needs.create-artifact.outputs.version }}
 
+    update-ecs:
+      runs-on: ubuntu-22.04
+      needs: build-image
+      steps:
+        - name: Redeploy ECS
+          env:
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+          run: aws ecs update-service --cluster refcard-02 --service refcard-02 --force-new-deployment
+
+
+
 
 
         
