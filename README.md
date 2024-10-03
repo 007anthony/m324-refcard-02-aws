@@ -174,5 +174,5 @@ update-ecs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-      run: aws ecs update-service --cluster refcard-02 --service refcard-02 --force-new-deployment
+      run: aws ecs update-service --cluster refcard-02 --service refcard-02 --region ${{ vars.AWS_REGION }}--force-new-deployment
 ```
