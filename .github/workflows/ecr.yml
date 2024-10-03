@@ -42,7 +42,7 @@ jobs:
           run: npm run build
 
         - name: pack artifact
-          run: zip refcard-02.zip ./build
+          run: zip -r refcard-02.zip ./build
 
         - name: Upload Artifact to Release
           uses: actions/upload-release-asset@v1.0.1
